@@ -1,29 +1,33 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-
-const title = "My first note";
-const dsc =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis rutrum egestas. Fusce orci sem, pellentesque a turpis sit amet, suscipit bibendum orci. Vivamus eu purus dapibus, fermentum libero eget, vehicula eros. Curabitur ut facilisis purus. Nullam ut purus a leo viverra bibendum sed eu leo.";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Note = (props) => {
-  const [noteTitle, setNoteTitle] = useState("Title");
-  const [noteDescription, setNoteDescription] = useState("");
   const [expanded, setExpanded] = useState(false);
-  const { titleP, dscP } = props;
+  const { noteTitle, noteDescription } = props;
+  const [titleSize, setTitleSize] = useState(1)
+
+  const expandNote = () =>{
+    setExpanded( prevExpanded => !prevExpanded);
+    setTitleSize(!expanded ? 0 : 1);
+  }
 
   return (
     <View style={styles.noteContainer}>
       <View style={styles.titleContainer}>
         <TouchableOpacity style={styles.editButton}>
-          <Text>edit</Text>
+          <Icon name="pencil" size={30} color="#000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.expandButton} onPress={() => setExpanded(!expanded)}>
-          <Text style={styles.titleText}>{title}</Text>
-          <View><Text>expand</Text></View>
+        <TouchableOpacity style={styles.expandButton} onPress={() => expandNote()}>
+          <View style={styles.titleView}>
+            <Text style={styles.titleText} numberOfLines={titleSize}>{noteTitle}</Text>
+          </View>
+
+          <View><Icon name="chevron-down" size={30} color="#000" /></View>
         </TouchableOpacity>
       </View>
       {expanded && <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText}>{dsc}</Text>
+        <Text style={styles.descriptionText}>{noteDescription}</Text>
       </View>}
     </View>
   );
@@ -33,14 +37,18 @@ const styles = StyleSheet.create({
   noteContainer: {
     flex: 1,
     borderWidth: 1,
+    marginTop: 24,
+    marginHorizontal: 24,
   },
   titleContainer: {
     flex: 0,
     flexDirection: "row",
-    padding: 12,
   },
   titleText: {
     fontSize: 18,
+  },
+  titleView: {
+    flex: 1,
   },
   editButton: {
     flex: 1,
@@ -48,11 +56,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   expandButton: {
-    flex: 3,
+    flex: 4,
     flexDirection: "row",
-    paddingHorizontal: 12,
     alignItems: "center",
     justifyContent: "space-between",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
   },
   descriptionContainer: {
     flex: 1,
