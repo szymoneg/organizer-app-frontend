@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   noteContainer: {
     flex: 1,
     borderWidth: 1,
-    marginTop: 12,
+    marginTop: 14,
     marginHorizontal: 24,
     marginBottom: 12,
   },
