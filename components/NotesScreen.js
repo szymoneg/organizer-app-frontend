@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, ScrollView } from "react-native";
 import Note from "./Note";
 import NoteAddModal from "./NoteAddModal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -7,11 +7,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 const NotesScreen = () => {
   const [notesList, setNotesList] = useState([]);
   const [modalAddVisible, setModalAddVisible] = useState(false);
-  const [refresh, setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
 
-
-  const renderItem = ({ item }) => (
-    <Note noteTitle={item.title} noteDescription={item.body} idNote={item.id} fnEdit={editNote} />);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts")
@@ -44,18 +41,17 @@ const NotesScreen = () => {
     } else {
       setNotesList([note]);
     }
-    setRefresh(!refresh)
+    setRefresh(!refresh);
   };
 
   return (
     <View style={styles.mainContainer}>
       <SafeAreaView style={styles.notesContainer}>
-        <FlatList
-          data={notesList}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          extraData={refresh}
-        />
+        <ScrollView>
+          {notesList.map((item, id) => {
+            return (<Note noteTitle={item.title} noteDescription={item.body} idNote={item.id} fnEdit={editNote} key={item.id} />);
+          })}
+        </ScrollView>
         <TouchableOpacity style={styles.buttonAdd} onPress={() => setModalAddVisible(true)}>
           <Icon name="plus" size={30} color="#000" />
         </TouchableOpacity>

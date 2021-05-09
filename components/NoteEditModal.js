@@ -21,6 +21,7 @@ const NoteEditModal = (props) => {
     if (noteTitle === "") {
       //TODO add toast
     } else {
+      //fetch here
       fnEdit(note);
       fnCancel();
     }

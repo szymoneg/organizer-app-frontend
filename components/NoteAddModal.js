@@ -11,11 +11,13 @@ const NoteAddModal = (props) => {
     let note = {
       title: noteTitle,
       body: noteDescription,
+      //TODO change for appropriate id
       id: length + 1,
     };
     if (noteTitle === "") {
       //TODO add toast
     } else {
+      //fetch here
       fnAdd(note);
     }
   };
