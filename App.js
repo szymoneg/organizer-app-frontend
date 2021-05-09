@@ -1,67 +1,33 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
-import TextInputComponet from "./components/TextInputComponent";
-import Footer from "./components/FooterComponent"
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import LoginScreen from './screens/LoginScreen'
+import RegisterScreen from './screens/RegisterScreen'
+import MainScreen from './screens/MainScreen'
 
-const YourApp = () => {
-  const [name, setName] = useState('Szymon')
-  const [age, setAge] = useState('30')
 
-  const sendLoginData = (login, password) => {
-    console.log(password + " " +login);
-  }
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
+function Home() {
   return (
-    <View style = {styles.container}>
-      <View style={styles.logo}>
-        <Image source = {require('./assets/logo.jpeg')}/>
-      </View>
-      <View style = {styles.loginView}>
-        <TextInputComponet title='login' onChangeText={(value) => setName(value)} placeholder='Login' secureTextEntry={false}/>
+    <Tab.Navigator>
+      <Tab.Screen name="Main" component={MainScreen} />
+    </Tab.Navigator>
+  )
+}
 
-        <TextInputComponet title='password' onChangeText={(value) => setName(value)} placeholder='password' secureTextEntry={true}/>
-
-        <Text> name: {name}, age: {age}</Text>
-
-        <TouchableOpacity style={styles.buttonSend} onPress={() => sendLoginData(name, age)}>
-          <Text style = {{fontSize: 20}}>Log in!</Text>
-        </TouchableOpacity>
-
-      </View>
-
-      <Footer/>
-      
-    </View>
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Register">
+        <Stack.Screen name="Login" component={LoginScreen}/>
+        <Stack.Screen name="Register" component={RegisterScreen}/>
+        <Stack.Screen name="Main" component={Home}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-export default YourApp;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  buttonSend: {
-    backgroundColor: 'grey',
-    marginHorizontal: 5,
-    marginVertical: 5,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-  },
-  logo: {
-    flex: 1,
-    width: 200,
-    height: 200,
-    marginTop: 100,
-  },
-  loginView: {
-    flex: 3,
-    width: "100%",
-    marginTop: 100,
-    alignItems: 'center',
-    justifyContent: "flex-start"
-  }
-})
+export default App;
