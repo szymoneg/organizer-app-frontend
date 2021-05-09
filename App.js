@@ -1,14 +1,34 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import LoginScreen from './screens/LoginScreen'
+import RegisterScreen from './screens/RegisterScreen'
+import MainScreen from './screens/MainScreen'
 
-const YourApp = () => {
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function Home() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>
-        Try editing me! 🎉
-      </Text>
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Main" component={MainScreen} />
+    </Tab.Navigator>
+  )
+}
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Register">
+        <Stack.Screen name="Login" component={LoginScreen}/>
+        <Stack.Screen name="Register" component={RegisterScreen}/>
+        <Stack.Screen name="Main" component={Home}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-export default YourApp;
+
+export default App;
