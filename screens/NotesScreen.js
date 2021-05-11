@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, ScrollView } from "react-native";
-import Note from "./Note";
-import NoteAddModal from "./NoteAddModal";
+import Note from "../components/Note";
+import NoteAddModal from "../components/NoteAddModal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const NotesScreen = () => {

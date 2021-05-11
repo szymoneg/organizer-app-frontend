@@ -4,8 +4,9 @@ import 'react-native-gesture-handler'
 
 const MainScreen = () => {
   return (
-    <View> 
-        <Text>XDDD</Text> 
+    <View style={styles.container}>
+        <Text style={{fontSize:26}}>Home Screen</Text>
+        <Text>Work in progress...</Text>
     </View>
   );
 }
@@ -13,4 +14,9 @@ const MainScreen = () => {
 export default MainScreen;
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+  }
 })

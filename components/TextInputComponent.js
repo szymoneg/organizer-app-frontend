@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TextInput, StyleSheet } from 'react-native';
 
-export default class TextInputComponet extends React.Component{
+export default class TextInputComponent extends React.Component{
     constructor(props){
         super(props);
     }
@@ -10,11 +10,11 @@ export default class TextInputComponet extends React.Component{
         return(
             <>
             <Text style = {{fontSize: 20}}> Enter {this.props.title}: </Text>
-                <TextInput 
+                <TextInput
                     style={styles.input}
                     placeholder={this.props.placeholder}
                     onChangeText={this.props.onChangeText}
-                    secureTextEntry={this.props.secureTextEntry}  
+                    secureTextEntry={this.props.secureTextEntry}
                 />
             </>
         )
@@ -33,5 +33,5 @@ const styles = StyleSheet.create({
         height: 40,
         fontSize: 16
       },
-    
+
 })

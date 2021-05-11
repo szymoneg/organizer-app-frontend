@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Button } from 'react-native';
-import TextInputComponet from "../components/TextInputComponent";
+import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent"
 import 'react-native-gesture-handler'
 
@@ -18,9 +18,9 @@ const LoginScreen = ({ navigation }) => {
         <Image source = {require('../assets/logo.jpeg')}/>
       </View>
       <View style = {styles.loginView}>
-        <TextInputComponet title='login' onChangeText={(value) => setName(value)} placeholder='Login' secureTextEntry={false}/>
+        <TextInputComponent title='login' onChangeText={(value) => setName(value)} placeholder='Login' secureTextEntry={false}/>
 
-        <TextInputComponet title='password' onChangeText={(value) => setName(value)} placeholder='password' secureTextEntry={true}/>
+        <TextInputComponent title='password' onChangeText={(value) => setName(value)} placeholder='password' secureTextEntry={true}/>
 
         <TouchableOpacity style={styles.buttonSend} onPress={() => {
           navigation.navigate('Main')
@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
 
       <Footer/>
-      
+
     </View>
   );
 }
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 200,
     height: 200,
-    marginTop: 100,
+    marginTop: 64,
   },
   loginView: {
     flex: 3,
