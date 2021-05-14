@@ -9,10 +9,9 @@ export default class TextInputComponent extends React.Component{
     render(){
         return(
             <>
-            <Text style = {{fontSize: 20}}> Enter {this.props.title}: </Text>
+            <Text style = {{fontSize: 20, color:'white'}}>{this.props.title} </Text>
                 <TextInput
                     style={styles.input}
-                    placeholder={this.props.placeholder}
                     onChangeText={this.props.onChangeText}
                     secureTextEntry={this.props.secureTextEntry}
                 />
@@ -24,13 +23,13 @@ export default class TextInputComponent extends React.Component{
 const styles = StyleSheet.create({
     input : {
         borderWidth: 1,
-        borderColor: 'black',
+        borderColor: 'white',
         borderRadius: 5,
         padding: 8,
         marginTop: 10,
         marginBottom: 10,
         width: 300,
-        height: 40,
+        height: 50,
         fontSize: 16
       },
 

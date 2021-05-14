@@ -4,7 +4,7 @@ import Note from "../components/Note";
 import NoteAddModal from "../components/NoteAddModal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const BG_IMAGE = "https://images.pexels.com/photos/5988420/pexels-photo-5988420.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
+const BG_IMAGE = "https://cdn-0.idownloadblog.com/ezoimgfmt/media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V2byArthur1992as-2048x2048.jpeg?ezimgfmt=ng:webp/ngcb28"
 
 const NotesScreen = () => {
   const [notesList, setNotesList] = useState([]);
