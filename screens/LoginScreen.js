@@ -33,7 +33,7 @@ const LoginScreen = ({ navigation }) => {
               <Text style={{color: 'white', textAlign:'right'}}>Forgot your password?</Text>
             </TouchableOpacity>
 
-            <ButtonComponent login="XDD" password="XD" title="Log in!" goto='Main'></ButtonComponent>
+            <ButtonComponent login="XDD" password="XD" title="Log in!" goto='Main' navigation={navigation}/>
 
             <Text style={{color: 'white', fontSize: 18}}>Don't have account? </Text>
 

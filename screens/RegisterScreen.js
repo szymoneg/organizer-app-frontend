@@ -31,7 +31,7 @@ const RegisterScreen = ({ navigation }) => {
 
         <TextInputComponet title='repeat password' onChangeText={(value) => setPassword2(value)} secureTextEntry={true}/>
 
-        <ButtonComponent login="XDD" password="XD" title="Register!" goto='Login'/>
+        <ButtonComponent login="XDD" password="XD" title="Register!" goto='Login' navigation={navigation}/>
 
         <Text style={{color: 'white', fontSize: 18}}>Do you have already account? </Text>
 
