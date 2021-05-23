@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, FlatList, TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, ScrollView, Image } from "react-native";
 import Note from "../components/Note";
 import NoteAddModal from "../components/NoteAddModal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+const BG_IMAGE = "https://images.pexels.com/photos/5988420/pexels-photo-5988420.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
+
 const NotesScreen = () => {
   const [notesList, setNotesList] = useState([]);
   const [modalAddVisible, setModalAddVisible] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-
+  const [refresh, setRefresh] = useState(true)
+  const [lastId, setLastId] = useState(0);
 
   useEffect(() => {
+    fetchNotes();
+    // setLastId(notesList[notesList.length].id)
+  }, []);
+
+  const fetchNotes = () => {
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then(response => response.json())
       .then(json => {
         json.length = 10;
         return json;
       })
-      .then(json => setNotesList(json));
-  }, []);
+      .then(json => {
+        setNotesList(json);
 
+      });
+  };
   const cancelNote = () => {
     setModalAddVisible(false);
   };
@@ -36,20 +45,38 @@ const NotesScreen = () => {
   const editNote = (note) => {
     if (notesList.length > 1) {
       let editedList = notesList;
-      editedList.splice(note.id - 1, 1, note);
+      editedList.splice(note.id , 1, note);
       setNotesList(editedList);
     } else {
       setNotesList([note]);
     }
-    setRefresh(!refresh);
+    setRefresh(!refresh)
+  };
+
+  const deleteNote = (index) => {
+    let notesCopy = [...notesList]
+    notesCopy.splice(index, 1)
+    setNotesList(notesCopy);
   };
 
   return (
     <View style={styles.mainContainer}>
+      <Image
+        source={{ uri: BG_IMAGE }}
+        style={StyleSheet.absoluteFillObject}
+        blurRadius={6}
+        opacity={.9}
+        backgroundColor={"rgba(212,156,97,1)"}
+      />
       <SafeAreaView style={styles.notesContainer}>
-        <ScrollView>
-          {notesList.map((item, id) => {
-            return (<Note noteTitle={item.title} noteDescription={item.body} idNote={item.id} fnEdit={editNote} key={item.id} />);
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {notesList.map((item, index) => {
+            return (<Note noteTitle={item.title}
+                          noteDescription={item.body}
+                          idNote={index}
+                          fnEdit={editNote}
+                          fnDelete={deleteNote}
+                          key={index} />);
           })}
         </ScrollView>
         <TouchableOpacity style={styles.buttonAdd} onPress={() => setModalAddVisible(true)}>
@@ -64,22 +91,26 @@ const NotesScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    backgroundColor: "rgba(255,255,255,1)",
   },
   notesContainer: {
     flex: 1,
   },
+  scrollContainer: {
+    padding: 20,
+    paddingBottom: 54,
+  },
   buttonAdd: {
-    borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
-    width: 56,
-    height: 56,
+    width: 54,
+    height: 54,
     borderRadius: 50,
-    backgroundColor: "white",
-    alignSelf: "flex-end",
-    bottom: 16,
-    right: 16,
+    backgroundColor: "rgba(255,255,255,1)",
+    bottom: 12,
+    right: 12,
     position: "absolute",
+    elevation: 16,
   },
 });
 
