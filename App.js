@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Settings } from "react-native";
 
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
@@ -10,6 +10,7 @@ import MainScreen from './screens/MainScreen'
 import NotesScreen from "./screens/NotesScreen";
 import CalendarScreen from "./screens/CalendarScreen"
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import SettingsScreen from "./screens/SettingsScreen";
 
 
 const Stack = createStackNavigator();
@@ -52,6 +53,7 @@ function App() {
         <Stack.Screen name="Login" component={LoginScreen}/>
         <Stack.Screen name="Register" component={RegisterScreen}/>
         <Stack.Screen name="Main" component={Home}/>
+        <Stack.Screen name="Settings" component={SettingsScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

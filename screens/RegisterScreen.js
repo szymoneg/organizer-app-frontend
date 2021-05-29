@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Button } from 'react-native';
-import TextInputComponet from "../components/TextInputComponent";
+import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent"
 import ButtonComponent from "../components/ButtonComponent"
 import 'react-native-gesture-handler'
@@ -23,13 +23,13 @@ const RegisterScreen = ({ navigation }) => {
         <Image source = {require('../assets/logo.png')} style={{resizeMode: 'contain', width: 150, height: 150}}/>
       </View>
       <View style = {styles.loginView}>
-        <TextInputComponet title='login' onChangeText={(value) => setLogin(value)} secureTextEntry={false}/>
+        <TextInputComponent title='login' onChangeText={(value) => setLogin(value)} secureTextEntry={false}/>
 
-        <TextInputComponet title='email' onChangeText={(value) => setEmail(value)} secureTextEntry={false}/>
+        <TextInputComponent title='email' onChangeText={(value) => setEmail(value)} secureTextEntry={false}/>
 
-        <TextInputComponet title='password' onChangeText={(value) => setPassword(value)} secureTextEntry={true}/>
+        <TextInputComponent title='password' onChangeText={(value) => setPassword(value)} secureTextEntry={true}/>
 
-        <TextInputComponet title='repeat password' onChangeText={(value) => setPassword2(value)} secureTextEntry={true}/>
+        <TextInputComponent title='repeat password' onChangeText={(value) => setPassword2(value)} secureTextEntry={true}/>
 
         <ButtonComponent login="XDD" password="XD" title="Register!" goto='Login' navigation={navigation}/>
 
@@ -40,11 +40,11 @@ const RegisterScreen = ({ navigation }) => {
               navigation.navigate('Login')
             }}>
                   <Text style={{color: 'lightblue', fontSize: 18, fontWeight: 'bold',}}> Log in!</Text>
-            </TouchableOpacity>  
+            </TouchableOpacity>
 
       </View>
       <Footer/>
-      
+
     </View>
   );
 }

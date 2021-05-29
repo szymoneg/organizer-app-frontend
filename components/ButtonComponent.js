@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default class TextInputComponent extends React.Component{
+export default class ButtonComponent extends React.Component{
     constructor(props){
         super(props);
     }
