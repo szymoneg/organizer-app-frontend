@@ -18,10 +18,10 @@ const Tab = createBottomTabNavigator();
 function Home() {
   return (
     <Tab.Navigator tabBarOptions ={{
-      showLabel: false, 
+      showLabel: false,
       style: {
-        backgroundColor: '#31132f',
-        height: 90
+        backgroundColor: 'rgba(49,19,47,1)',
+        height: 84
         }}}>
       <Tab.Screen name="Main" component={MainScreen} options={{
        tabBarIcon: () => <View style={styles.viewBar}>
@@ -63,8 +63,6 @@ export default App;
 
 const styles = StyleSheet.create({
   viewBar:{
-    marginTop: 20, 
-    justifyContent: 'center', 
     alignItems: 'center'
   },
   textBar:{

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image } from "react-native";
-
-const BG_IMAGE = "https://images.pexels.com/photos/5988420/pexels-photo-5988420.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
+import Background from "./Backgorund";
 
 const NoteEditModal = (props) => {
   const [noteTitle, setNoteTitle] = useState("");
@@ -31,13 +30,7 @@ const NoteEditModal = (props) => {
   return (
     <Modal visible={visible} onRequestClose={() => fnCancel()}>
       <View style={styles.modalView}>
-        <Image
-          source={{ uri: BG_IMAGE }}
-          style={StyleSheet.absoluteFillObject}
-          blurRadius={5}
-          opacity={.9}
-          backgroundColor={"rgba(212,156,97,1)"}
-        />
+        <Background/>
         <View>
           <TextInput style={styles.inputTitleField}
                      placeholder={"Title"}
