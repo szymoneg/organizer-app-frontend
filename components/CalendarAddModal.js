@@ -21,6 +21,11 @@ const CalendarAddModal = (props) => {
     let calendar = {
       title: calendarTitle,
       body: calendarDescription,
+      start: calendarStart,
+      end: calendarEnd,
+      tags: calendarTags,
+      color: calendarColor,
+      notification: calendarNotification
       //TODO change for appropriate id
       // id: length + 1,
     };
@@ -75,7 +80,7 @@ const CalendarAddModal = (props) => {
                               onPress={() => fnCancel()}>
               <Text>Color</Text>
             </TouchableOpacity>
-            
+
           </View>
         </View>
         <View style={styles.buttons}>

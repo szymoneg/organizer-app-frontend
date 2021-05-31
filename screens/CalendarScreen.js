@@ -9,44 +9,48 @@ import NoteAddModal from "../components/NoteAddModal";
 
 const listCalendar = {
   "2021-05-28": [
-    { name: "item 1 - any js object" , marked: true}
+    { name: "item 1 - any js object" , marked: true, dotColor: 'red'},
   ],
+  "2021-05-29": []
 };
-
-const renderItem = (item) =>{
-  return (
-    <TouchableOpacity
-      style={[styles.item, { height: item.height }]}
-      onPress={() => Alert.alert(item.name)}
-    >
-      <Text>{item.name}</Text>
-    </TouchableOpacity>
-  );
-}
-
-const renderEmptyDate = () =>{
-  return (
-    <View style={styles.emptyDate}>
-      <Text>This is empty date!</Text>
-    </View>
-  );
-}
-
-const rowHasChanged = (r1, r2) =>{
-  return r1.name !== r2.name
-}
-
-const timeToString = (time) =>{
-  const date = new Date(time);
-  return date.toISOString().split("T")[0];
-}
 
 const CalendarScreen = () => {
   const [calendarList, setCalendarList] = useState([])
   const [modalAddVisible, setModalAddVisible] = useState(false)
 
+  const fetchNotes = () => {
+    fetch("http://localhost:8080/task/getTasks/andrzej")
+      .then(response => response.json())
+      .then(json => {
+        json.length = 10;
+        return json;
+      })
+      .then(json => {
+        //console.log(json);
+      });
+  };
+
+  const add = () => {
+    console.log("click!")
+    mapper(fetchNotes())
+    listCalendar["2021-05-28"] = [{ name: "zadanie", marked: true}]
+  }
+
+  const mapper = (listArr) => {
+    console.log(listArr)
+  }
+
   const cancelCalendar = () =>{
     setModalAddVisible(false);
+  }
+
+  const rowHasChanged = (r1, r2) =>{
+    return r1.name !== r2.name
+  }
+
+  const timeToString = (time) =>{
+    const date = new Date(time);
+    return date.toISOString().split("T")[0];
   }
 
   const addCalendar = (calendar) => {
@@ -58,6 +62,28 @@ const CalendarScreen = () => {
     setModalAddVisible(false);
   };
 
+  const renderItem = (item) =>{
+    return (
+      <TouchableOpacity
+        style={[styles.item, { height: item.height }]}
+        onPress={() => {
+          add()
+          Alert.alert(item.name)
+        }}
+      >
+        <Text>{item.name}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  const renderEmptyDate = () =>{
+    return (
+      <View style={styles.emptyDate}>
+        <Text>This is empty date!</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={{flex: 1}}>
       <Background/>
@@ -68,21 +94,14 @@ const CalendarScreen = () => {
       renderEmptyDate={renderEmptyDate}
       style={{marginTop: 40}}
       markingType={'period'}
-      markedDates={{
-        '2021-05-21': {startingDay: true, color: '#50cebb', textColor: 'white'},
-        '2021-05-22': {color: '#70d7c7', textColor: 'white'},
-        '2021-05-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
-        '2021-05-24': {color: '#70d7c7', textColor: 'white'},
-        '2021-05-25': {endingDay: true, color: '#50cebb', textColor: 'white'},
-        '2021-05-28': {color: '#70d7c7', textColor: 'white'},
-      }}
+      dayLoading={false}
       theme={{
         backgroundColor: 'rgba(255,255,255,0)',
-        calendarBackground: '#31132f',
+        calendarBackground: 'white',
         textSectionTitleColor: '#b6c1cd',
         textSectionTitleDisabledColor: '#d9e1e8',
         selectedDayBackgroundColor: '#00adf5',
-        selectedDayTextColor: '#ffffff',
+        selectedDayTextColor: 'black',
         todayTextColor: '#00adf5',
         dayTextColor: '#2d4150',
         textDisabledColor: '#d9e1e8',
