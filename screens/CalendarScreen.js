@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Alert, SafeAreaView, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Alert, SafeAreaView, Pic } from "react-native";
 import 'react-native-gesture-handler'
 import { Agenda } from "react-native-calendars";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Background from "../components/Backgorund";
 import CalendarAddModal from "../components/CalendarAddModal";
-import NoteAddModal from "../components/NoteAddModal";
+import '../service/Mapper';
+import { mapper } from "../service/Mapper";
+import { getData } from "../service/RestApi";
 
 const listCalendar = {
   "2021-05-28": [
@@ -18,6 +20,10 @@ const CalendarScreen = () => {
   const [calendarList, setCalendarList] = useState([])
   const [modalAddVisible, setModalAddVisible] = useState(false)
 
+  useEffect(() => {
+    fetchNotes()
+  },[])
+
   const fetchNotes = () => {
     fetch("http://localhost:8080/task/getTasks/andrzej")
       .then(response => response.json())
@@ -26,19 +32,9 @@ const CalendarScreen = () => {
         return json;
       })
       .then(json => {
-        //console.log(json);
+        this.listCalendar = mapper(json, listCalendar);
       });
   };
-
-  const add = () => {
-    console.log("click!")
-    mapper(fetchNotes())
-    listCalendar["2021-05-28"] = [{ name: "zadanie", marked: true}]
-  }
-
-  const mapper = (listArr) => {
-    console.log(listArr)
-  }
 
   const cancelCalendar = () =>{
     setModalAddVisible(false);
@@ -54,12 +50,40 @@ const CalendarScreen = () => {
   }
 
   const addCalendar = (calendar) => {
-    if (calendarList.length > 0) {
-      setCalendarList(oldCalendarList => [...oldCalendarList, calendar]);
-    } else {
-      setCalendarList([calendar]);
+    const startDate = new Date(calendar.start)
+    const endDate = new Date(calendar.end)
+
+    const newStartDate = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate() + " " + startDate.getHours() + ":" + startDate.getMinutes() + ":" + startDate.getSeconds()
+    const newEndDate = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() + " " + endDate.getHours() + ":" + endDate.getMinutes() + ":" + endDate.getSeconds()
+
+    //zmienic idUser -> username
+    let newTask = {
+      idUser: 1,
+      titleTask: calendar.title,
+      descriptionTask: calendar.description,
+      startTask: newStartDate,
+      endTask: newEndDate,
+      tags: calendar.tags,
+      color: calendar.color,
+      notificationTask: newStartDate
     }
-    setModalAddVisible(false);
+
+    fetch('http://localhost:8080/task/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newTask),
+    })
+      .then(result => result.json())
+      .then(response => {
+        console.log(response.status)
+        Alert.alert(response.status, "Dodano!")
+        setModalAddVisible(false)
+      });
+
+    console.log(newTask);
+
   };
 
   const renderItem = (item) =>{
@@ -67,7 +91,6 @@ const CalendarScreen = () => {
       <TouchableOpacity
         style={[styles.item, { height: item.height }]}
         onPress={() => {
-          add()
           Alert.alert(item.name)
         }}
       >
@@ -110,7 +133,7 @@ const CalendarScreen = () => {
         arrowColor: 'orange',
         disabledArrowColor: '#d9e1e8',
         monthTextColor: 'blue',
-        indicatorColor: 'blue',
+        indicatorColor: 'rgba(255,255,255,0)',
         textDayFontWeight: '300',
         textMonthFontWeight: 'bold',
         textDayHeaderFontWeight: '300',

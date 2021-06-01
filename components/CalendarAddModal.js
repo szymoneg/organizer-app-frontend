@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image, Picker } from "react-native";
+import React, { useRef, useState } from "react";
+import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image } from "react-native";
 import DatePicker from "react-native-date-picker";
-import { Dropdown } from 'react-native-material-dropdown';
+import { Picker } from "@react-native-picker/picker";
 
 const BG_IMAGE = "https://cdn-0.idownloadblog.com/ezoimgfmt/media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V2byArthur1992as-2048x2048.jpeg?ezimgfmt=ng:webp/ngcb28";
 
@@ -20,12 +20,12 @@ const CalendarAddModal = (props) => {
 
     let calendar = {
       title: calendarTitle,
-      body: calendarDescription,
+      description: calendarDescription,
       start: calendarStart,
       end: calendarEnd,
       tags: calendarTags,
       color: calendarColor,
-      notification: calendarNotification
+      notification: calendarStart,
       //TODO change for appropriate id
       // id: length + 1,
     };
@@ -37,6 +37,17 @@ const CalendarAddModal = (props) => {
       fnAdd(calendar);
     }
   };
+
+  const pickerRef = useRef();
+
+  function open() {
+    pickerRef.current.focus();
+  }
+
+  function close() {
+    pickerRef.current.blur();
+  }
+
   return (
     <Modal visible={visible} transparent={true} onRequestClose={() => fnCancel()}>
 
@@ -45,7 +56,7 @@ const CalendarAddModal = (props) => {
           source={{ uri: BG_IMAGE }}
           style={StyleSheet.absoluteFillObject}
           blurRadius={5}
-          opacity={.9}
+          opacity={1}
           backgroundColor={"rgba(212,156,97,1)"}
         />
         <View>
@@ -75,12 +86,21 @@ const CalendarAddModal = (props) => {
             date={calendarEnd}
             onDateChange={setCalendarEnd}
           />
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.colorPicker}
-                              onPress={() => fnCancel()}>
-              <Text>Color</Text>
-            </TouchableOpacity>
-
+          <Text style={styles.textLabel}>Color</Text>
+          <View style={{width: 100, marginBottom: 0}}>
+            {/*Color picker w osobnym modalu!*/}
+            <Picker
+              style={{ width: "100px" }}
+              ref={pickerRef}
+              selectedValue={calendarColor}
+              onValueChange={(itemValue, itemIndex) =>
+                setCalendarColor(itemValue)
+              }>
+              <Picker.Item label="Red" value="red" itemStyle={{color: 'red'}}/>
+              <Picker.Item label="Green" value="green" />
+              <Picker.Item label="Blue" value="blue" />
+              <Picker.Item label="Yellow" value="yellow" />
+            </Picker>
           </View>
         </View>
         <View style={styles.buttons}>
