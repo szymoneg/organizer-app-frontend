@@ -6,7 +6,10 @@ export async function postData(url = '', data = {}){
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data),
-  });
+  })
+    .then(r => {
+      console.log(r.status)
+    });
 
   return response.json();
 }

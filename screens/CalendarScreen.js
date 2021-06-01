@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Alert, SafeAreaView, Pic } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Alert, SafeAreaView } from "react-native";
+import { AsyncStorage } from 'react-native';
 import 'react-native-gesture-handler'
 import { Agenda } from "react-native-calendars";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -115,7 +116,7 @@ const CalendarScreen = () => {
       rowHasChanged={rowHasChanged}
       renderItem={renderItem}
       renderEmptyDate={renderEmptyDate}
-      style={{marginTop: 40}}
+      style={{}}
       markingType={'period'}
       dayLoading={false}
       theme={{

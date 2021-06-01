@@ -21,21 +21,5 @@ export default class TextInputComponent extends React.Component{
 }
 
 const styles = StyleSheet.create({
-    textButton:{
-        flex: 1,
-        fontSize: 20,
-        color: "white"
-      },
-      buttonSend: {
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: 'rgba(255, 128, 128, 0.9)',
-        marginHorizontal: 10,
-        marginVertical: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 5,
-        height: 50,
-        width: 300,
-      },
+
 })

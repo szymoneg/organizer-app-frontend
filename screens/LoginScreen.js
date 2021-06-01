@@ -3,15 +3,34 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, ImageBackground } from
 import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent"
 import Background from "../components/Backgorund"
-import ButtonComponent from "../components/ButtonComponent";
 import 'react-native-gesture-handler'
+import { postData } from "../service/RestApi";
 
 const LoginScreen = ({ navigation }) => {
-  const [name, setName] = useState('Szymon')
-  const [age, setAge] = useState('30')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-  const sendLoginData = (login, password) => {
-    console.log(password + " " +login);
+  const sendLoginData = () => {
+    console.log(username + " " +password);
+
+    fetch('http://localhost:8080/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: username, password: password}),
+    })
+      .then(response => {
+        if (response.status > 200){
+          //nie zalogowano
+          navigation.navigate('login');
+        }
+      })
+      .then(r => r.json())
+      .then(json => {
+        console.log(json)
+        return json
+      })
   }
 
   const forgotPasswordHandler = () => {
@@ -25,15 +44,19 @@ const LoginScreen = ({ navigation }) => {
             <Image source = {require('../assets/logo.png')} style={{resizeMode: 'contain', width: 150, height: 150}}/>
           </View>
           <View style = {styles.loginView}>
-            <TextInputComponent title='login' onChangeText={(value) => setName(value)} placeholder='Login' secureTextEntry={false}/>
+            <TextInputComponent title='login' onChangeText={(value) => setUsername(value)} placeholder='Login' secureTextEntry={false}/>
 
-            <TextInputComponent title='password' onChangeText={(value) => setName(value)} placeholder='password' secureTextEntry={true}/>
+            <TextInputComponent title='password' onChangeText={(value) => setPassword(value)} placeholder='password' secureTextEntry={true}/>
 
             <TouchableOpacity onPress={() => {forgotPasswordHandler()}}>
               <Text style={{color: 'white', textAlign:'right'}}>Forgot your password?</Text>
             </TouchableOpacity>
 
-            <ButtonComponent login="XDD" password="XD" title="Log in!" goto='Main' navigation={navigation}/>
+            <TouchableOpacity style={styles.buttonSend} onPress={() => {
+              sendLoginData()
+            }}>
+              <Text style = {styles.textButton}>Login</Text>
+            </TouchableOpacity>
 
             <Text style={{color: 'white', fontSize: 18}}>Don't have account? </Text>
 
@@ -42,7 +65,7 @@ const LoginScreen = ({ navigation }) => {
               navigation.navigate('Register')
             }}>
                   <Text style={{color: 'lightblue', fontSize: 18, fontWeight: 'bold',}}> Sign up!</Text>
-            </TouchableOpacity>   
+            </TouchableOpacity>
           </View>
         <Footer/>
       </View>
@@ -56,6 +79,23 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  textButton:{
+    flex: 1,
+    fontSize: 20,
+    color: "white"
+  },
+  buttonSend: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: 'rgba(255, 128, 128, 0.9)',
+    marginHorizontal: 10,
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    height: 50,
+    width: 300,
   },
   logo: {
     flex: 1,
