@@ -8,8 +8,6 @@ export default function Background() {
     <Image
     source={{ uri: BG_IMAGE }}
     style={StyleSheet.absoluteFillObject}
-    blurRadius={2}
-    backgroundColor={"rgba(212,156,97,1)"}
   />
   )
 }

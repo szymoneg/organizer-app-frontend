@@ -1,91 +1,71 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, Button } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button, ScrollView } from "react-native";
 import TextInputComponent from "../components/TextInputComponent";
-import Footer from "../components/FooterComponent"
-import ButtonComponent from "../components/ButtonComponent"
-import 'react-native-gesture-handler'
-import Background from '../components/Backgorund';
+import Footer from "../components/FooterComponent";
+import ButtonComponent from "../components/ButtonComponent";
+import "react-native-gesture-handler";
+import Background from "../components/Backgorund";
 
 const RegisterScreen = ({ navigation }) => {
-  const [login, setLogin] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [password2, setPassword2] = useState('')
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
 
   const sendRegisterData = () => {
-      console.log("DD")
-  }
+    console.log("DD");
+  };
 
   return (
-    <View style = {styles.container}>
-      <Background/>
-      <View style={styles.logo}>
-        <Image source = {require('../assets/logo.png')} style={{resizeMode: 'contain', width: 150, height: 150}}/>
-      </View>
-      <View style = {styles.loginView}>
-        <TextInputComponent title='login' onChangeText={(value) => setLogin(value)} secureTextEntry={false}/>
+    <SafeAreaView style={{flex:1}}>
+      <Background />
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.logo}>
+          <Image source={require("../assets/logo.png")}
+                 style={{resizeMode: "contain", width: 150, height: 150 }} />
+        </View>
+        <View style={styles.loginView}>
+          <TextInputComponent title="Login" onChangeText={(value) => setLogin(value)} secureTextEntry={false} />
 
-        <TextInputComponent title='email' onChangeText={(value) => setEmail(value)} secureTextEntry={false}/>
+          <TextInputComponent title="Email" onChangeText={(value) => setEmail(value)} secureTextEntry={false} />
 
-        <TextInputComponent title='password' onChangeText={(value) => setPassword(value)} secureTextEntry={true}/>
+          <TextInputComponent title="Password" onChangeText={(value) => setPassword(value)} secureTextEntry={true} />
 
-        <TextInputComponent title='repeat password' onChangeText={(value) => setPassword2(value)} secureTextEntry={true}/>
+          <TextInputComponent title="Confirm password" onChangeText={(value) => setPassword2(value)}
+                              secureTextEntry={true} />
 
-        <ButtonComponent login="XDD" password="XD" title="Register!" goto='Login' navigation={navigation}/>
+          <ButtonComponent login="XDD" password="XD" title="Register!" goto="Login" navigation={navigation} />
 
-        <Text style={{color: 'white', fontSize: 18}}>Do you have already account? </Text>
+          <Text style={{ color: "white", fontSize: 18 }}>Have an account?</Text>
 
-        <TouchableOpacity onPress={() => {
-              console.log("signup")
-              navigation.navigate('Login')
-            }}>
-                  <Text style={{color: 'lightblue', fontSize: 18, fontWeight: 'bold',}}> Log in!</Text>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+            console.log("signup");
+            navigation.navigate("Login");
+          }}>
+            <Text style={{ color: "lightblue", marginTop:12, fontSize: 18, fontWeight: "bold" }}> Log in!</Text>
+          </TouchableOpacity>
 
-      </View>
-      <Footer/>
-
-    </View>
+        </View>
+        <Footer />
+      </ScrollView>
+    </SafeAreaView>
   );
-}
+};
 
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "white",
-        alignItems: "center",
-        justifyContent: "center"
-      },
-      textButton:{
-        flex: 1,
-        fontSize: 20,
-        color: "white"
-      },
-      buttonSend: {
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: 'rgba(255, 128, 128, 0.9)',
-        marginHorizontal: 10,
-        marginVertical: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 5,
-        height: 50,
-        width: 300,
-      },
-      logo: {
-        flex: 1,
-        width: 150,
-        height: 150,
-        marginTop: 70,
-      },
-      loginView: {
-        flex: 3,
-        width: "100%",
-        marginTop: 10,
-        alignItems: 'center',
-        justifyContent: "flex-start"
-      }
-})
+  container: {
+    alignItems: "center",
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    marginTop: 32,
+  },
+  loginView: {
+    flex: 1,
+    marginTop: 12,
+    alignItems: "center",
+  },
+});

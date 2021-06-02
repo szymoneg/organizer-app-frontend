@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 50,
         fontSize: 16,
-        backgroundColor:'white'
+        backgroundColor:'rgba(255,255,255,0.8)'
       },
 
 })
