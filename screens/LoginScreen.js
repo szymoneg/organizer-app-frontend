@@ -11,8 +11,6 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const sendLoginData = () => {
-    console.log(username + " " + password);
-
     fetch("http://localhost:8080/user/login", {
       method: "POST",
       headers: {
@@ -31,14 +29,13 @@ const LoginScreen = ({ navigation }) => {
           return "empty token"
         }else {
           storeData("username", username)
-            .then(r => console.log("dodano!"))
           navigation.navigate("Main")
           return response.json()
         }
       })
       .then(json => {
         storeData("token", json.token)
-          .then(r => console.log(json.token))
+        storeData("idUser", json.userId.toString())
       })
   };
 

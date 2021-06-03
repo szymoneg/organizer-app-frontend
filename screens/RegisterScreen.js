@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button, ScrollView } from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button, ScrollView, Alert } from "react-native";
 import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent";
 import ButtonComponent from "../components/ButtonComponent";
 import "react-native-gesture-handler";
 import Background from "../components/Backgorund";
+import { storeData } from "../service/AsyncStorage";
 
 const RegisterScreen = ({ navigation }) => {
   const [login, setLogin] = useState("");
@@ -13,9 +14,25 @@ const RegisterScreen = ({ navigation }) => {
   const [password2, setPassword2] = useState("");
 
   const sendRegisterData = () => {
-    console.log("DD");
     if (password === password2){
-
+      fetch("http://localhost:8080/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: login,
+          email: email,
+          password: password,
+        }),
+      })
+        .then(response => {
+          if(response.status !== 201) {
+            console.log("blad rejestracji" + response.status);
+            Alert.alert(response.status, "Nie zerejestrowano")
+            return "empty token"
+          }
+        })
     }else {
       Alert.alert("Title","Password does not match!")
     }
@@ -48,7 +65,6 @@ const RegisterScreen = ({ navigation }) => {
           <Text style={{ color: "white", fontSize: 18 }}>Have an account?</Text>
 
           <TouchableOpacity onPress={() => {
-            console.log("signup");
             navigation.navigate("Login");
           }}>
             <Text style={{ color: "lightblue", marginTop:12, fontSize: 18, fontWeight: "bold" }}> Log in!</Text>
