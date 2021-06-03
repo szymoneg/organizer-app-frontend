@@ -30,14 +30,14 @@ const LoginScreen = ({ navigation }) => {
           navigation.navigate("Register");
           return "empty token"
         }else {
-          storeData('username', username)
+          storeData("username", username)
             .then(r => console.log("dodano!"))
           navigation.navigate("Main")
           return response.json()
         }
       })
       .then(json => {
-        storeData('token', json.token)
+        storeData("token", json.token)
           .then(r => console.log(json.token))
       })
   };

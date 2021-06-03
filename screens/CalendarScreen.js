@@ -20,21 +20,44 @@ const listCalendar = {
 const CalendarScreen = () => {
   const [calendarList, setCalendarList] = useState([])
   const [modalAddVisible, setModalAddVisible] = useState(false)
+  const [username, setUsername] = useState('')
+  const [token, setToken] = useState('')
 
   useEffect(() => {
-    fetchNotes()
+    console.log('use 1')
+    getData("username").then(data => JSON.parse(data)).then(r=> setUsername(r))
+    //getData("token").then(r => setToken(r))
+    // setToken(getData("token"))
+    // setUsername(getData("username"))
   },[])
 
+  useEffect(() => {
+    console.log('use 3')
+    if (username !== '') {
+      console.log('use2')
+      fetchNotes()
+    }
+  },[username])
+
   const fetchNotes = () => {
-    fetch("http://localhost:8080/task/getTasks/andrzej")
-      .then(response => response.json())
-      .then(json => {
-        json.length = 10;
-        return json;
+    console.log(username)
+    fetch('http://localhost:8080/task/getTasks/andrzej',{
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        //'Authorization': `Bearer ${token}`
+      },
+    })
+      .then(response => {
+        if (response.status !== 200){
+          Alert.alert('title', "Blad ladowania")
+        }else{
+          return response.json()
+        }
       })
       .then(json => {
-        this.listCalendar = mapper(json, listCalendar);
-      });
+        this.listCalendar= mapper(json, listCalendar)
+      })
   };
 
   const cancelCalendar = () =>{
