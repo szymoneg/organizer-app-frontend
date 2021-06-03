@@ -14,6 +14,11 @@ const RegisterScreen = ({ navigation }) => {
 
   const sendRegisterData = () => {
     console.log("DD");
+    if (password === password2){
+
+    }else {
+      Alert.alert("Title","Password does not match!")
+    }
   };
 
   return (
@@ -34,7 +39,11 @@ const RegisterScreen = ({ navigation }) => {
           <TextInputComponent title="Confirm password" onChangeText={(value) => setPassword2(value)}
                               secureTextEntry={true} />
 
-          <ButtonComponent login="XDD" password="XD" title="Register!" goto="Login" navigation={navigation} />
+                  <TouchableOpacity style={styles.buttonSend} onPress={() => {
+          sendRegisterData();
+        }}>
+          <Text style={styles.textButton}>Register</Text>
+        </TouchableOpacity>
 
           <Text style={{ color: "white", fontSize: 18 }}>Have an account?</Text>
 
@@ -55,7 +64,7 @@ const RegisterScreen = ({ navigation }) => {
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
-  container: {
+container: {
     alignItems: "center",
   },
   logo: {
@@ -68,4 +77,21 @@ const styles = StyleSheet.create({
     marginTop: 12,
     alignItems: "center",
   },
+  textButton: {
+    flex: 1,
+    fontSize: 20,
+    color: "white",
+  },
+  buttonSend: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255, 128, 128, 0.9)",
+    marginHorizontal: 10,
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    height: 50,
+    width: 300,
+  }
 });

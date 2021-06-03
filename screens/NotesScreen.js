@@ -25,7 +25,6 @@ const NotesScreen = () => {
       })
       .then(json => {
         setNotesList(json);
-
       });
   };
   const cancelNote = () => {

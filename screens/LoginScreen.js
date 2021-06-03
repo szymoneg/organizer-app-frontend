@@ -1,25 +1,45 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image, ImageBackground, Alert, SafeAreaView, ScrollView } from "react-native";
 import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent";
 import Background from "../components/Backgorund";
-import ButtonComponent from "../components/ButtonComponent";
 import "react-native-gesture-handler";
+import { storeData } from "../service/AsyncStorage";
 
 const LoginScreen = ({ navigation }) => {
-  const [name, setName] = useState("Szymon");
-  const [age, setAge] = useState("30");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const sendLoginData = (login, password) => {
-    console.log(password + " " + login);
+  const sendLoginData = () => {
+    console.log(username + " " + password);
+
+    fetch("http://localhost:8080/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+      .then(response => {
+        if(response.status !== 200) {
+          console.log("nie zalogowano" + response.status);
+          Alert.alert(response.status, "Nie zalogowano")
+          navigation.navigate("Register");
+          return "empty token"
+        }else {
+          storeData('username', username)
+            .then(r => console.log("dodano!"))
+          navigation.navigate("Main")
+          return response.json()
+        }
+      })
+      .then(json => {
+        storeData('token', json.token)
+          .then(r => console.log(json.token))
+      })
   };
 
   const forgotPasswordHandler = () => {
@@ -46,7 +66,11 @@ const LoginScreen = ({ navigation }) => {
             <Text style={{ color: "white", textAlign: "right" }}>Forgot your password?</Text>
           </TouchableOpacity>
 
-          <ButtonComponent login="XDD" password="XD" title="Log in!" goto="Main" navigation={navigation} />
+                  <TouchableOpacity style={styles.buttonSend} onPress={() => {
+          sendLoginData();
+        }}>
+          <Text style={styles.textButton}>Login</Text>
+        </TouchableOpacity>
 
           <Text style={{ color: "white", fontSize: 18 }}>Don't have an account?</Text>
 
@@ -66,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
+ container: {
     alignItems: "center",
   },
   logo: {
@@ -78,5 +102,22 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 12,
     alignItems: "center",
+  },
+  textButton: {
+    flex: 1,
+    fontSize: 20,
+    color: "white",
+  },
+  buttonSend: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255, 128, 128, 0.9)",
+    marginHorizontal: 10,
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    height: 50,
+    width: 300,
   },
 });
