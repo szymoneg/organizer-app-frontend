@@ -54,10 +54,10 @@ const LoginScreen = ({ navigation }) => {
           <Image source={require("../assets/logo.png")} style={{ resizeMode: "contain", width: 150, height: 150 }} />
         </View>
         <View style={styles.loginView}>
-          <TextInputComponent title="Login" onChangeText={(value) => setName(value)} placeholder="Login"
+          <TextInputComponent title="Login" onChangeText={(value) => setUsername(value)} placeholder="Login"
                               secureTextEntry={false} />
 
-          <TextInputComponent title="Password" onChangeText={(value) => setName(value)} placeholder="Password"
+          <TextInputComponent title="Password" onChangeText={(value) => setPassword(value)} placeholder="Password"
                               secureTextEntry={true} />
 
           <TouchableOpacity onPress={() => {
