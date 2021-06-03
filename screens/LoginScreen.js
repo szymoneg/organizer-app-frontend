@@ -14,7 +14,7 @@ const LoginScreen = ({ navigation }) => {
   const sendLoginData = () => {
     console.log(username + " " + password);
 
-    fetch(`${config.SERVER_URL}user/login`, {
+    fetch(`${config.SERVER_URL}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,8 +38,8 @@ const LoginScreen = ({ navigation }) => {
         }
       })
       .then(json => {
-        storeData('token', json.token)
-          .then(r => console.log(json.token))
+        storeData('token', json.token).then()
+        storeData('userId', json.userId.toString()).then()
       })
   };
 

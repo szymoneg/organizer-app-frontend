@@ -11,27 +11,26 @@ const NotesScreen = () => {
   const [notesList, setNotesList] = useState([]);
   const [modalAddVisible, setModalAddVisible] = useState(false);
   const [refresh, setRefresh] = useState(true);
-  const [lastId, setLastId] = useState(0);
   const [username, setUsername] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     getData("username").then(r => setUsername(r));
+    getData("userId").then(r => setUserId(r));
   }, []);
 
   useEffect(() => {
-    if (username !== "") {
+    if (username !== "" && userId !== "") {
       fetchNotes();
     }
-  }, [username]);
+  }, [username, userId]);
 
 
   const fetchNotes = () => {
-    fetch(`${config.SERVER_URL}note/getAll/${username}`)
+    fetch(`${config.SERVER_URL}/note/getAll/${username}`)
       .then(response => response.json())
       .then(json => {
-        console.log(username + "xxxdd");
-        console.log(json);
         return json;
       })
       .then(json => {
@@ -44,28 +43,32 @@ const NotesScreen = () => {
   };
 
   const addNote = (note) => {
-    if (notesList.length > 0) {
-      setNotesList(oldNotesList => [...oldNotesList, note]);
-    } else {
-      setNotesList([note]);
-    }
+    setNotesList([...notesList, note]);
     setModalAddVisible(false);
   };
 
-  const editNote = (note) => {
+  const editNote = (newNote) => {
     if (notesList.length > 1) {
-      let editedList = notesList;
-      editedList.splice(note.id, 1, note);
+      const editedList = notesList.map(note => {
+        if (note.idNote === newNote.idNote) {
+          return {
+            ...note,
+            ...newNote,
+          };
+        } else {
+          return note;
+        }
+      });
       setNotesList(editedList);
     } else {
-      setNotesList([note]);
+      setNotesList([newNote]);
     }
     setRefresh(!refresh);
   };
 
-  const deleteNote = (index) => {
+  const deleteNote = (id) => {
     let notesCopy = [...notesList];
-    notesCopy.splice(index, 1);
+    notesCopy = notesCopy.filter(element => element.idNote !== id);
     setNotesList(notesCopy);
   };
 
@@ -74,20 +77,22 @@ const NotesScreen = () => {
       <Background />
       {loaded && <SafeAreaView style={styles.notesContainer}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {notesList.map((item, index) => {
+          {notesList.map(item => {
             return (<Note noteTitle={item.titleNote}
                           noteDescription={item.descriptionNote}
-              // idNote={index}
+                          userId={userId}
+                          idNote={item.idNote}
                           fnEdit={editNote}
                           fnDelete={deleteNote}
-                          key={index} />);
+                          key={item.idNote} />);
           })}
         </ScrollView>
         <TouchableOpacity style={styles.buttonAdd} onPress={() => setModalAddVisible(true)}>
           <Icon name="plus" size={30} color="#000" />
         </TouchableOpacity>
       </SafeAreaView>}
-      <NoteAddModal visible={modalAddVisible} fnCancel={cancelNote} fnAdd={addNote} length={notesList.length} />
+      <NoteAddModal visible={modalAddVisible} fnCancel={cancelNote} userId={userId} fnAdd={addNote}
+                    length={notesList.length} />
     </View>
   );
 };

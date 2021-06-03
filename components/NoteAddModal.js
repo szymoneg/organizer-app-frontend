@@ -1,27 +1,32 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput } from "react-native";
 import Background from "./Backgorund";
+import config from "../service/config.json";
 
 const NoteAddModal = (props) => {
   const [noteTitle, setNoteTitle] = useState("");
   const [noteDescription, setNoteDescription] = useState("");
-  const { visible, fnCancel, fnAdd, length } = props;
+  const { visible, fnCancel, fnAdd, userId } = props;
 
 
   const checkFields = () => {
 
     let note = {
-      title: noteTitle,
-      body: noteDescription,
-      //TODO change for appropriate id
-      // id: length + 1,
+      idUser: userId,
+      titleNote: noteTitle,
+      descriptionNote: noteDescription,
     };
     if (noteTitle === "") {
       //TODO add toast
     } else {
-      //fetch here
-      // console.log(length)
-      fnAdd(note);
+      fetch(`${config.SERVER_URL}/note/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(note),
+      }).then(response => response.json())
+        .then(response => fnAdd(response));
     }
   };
   return (
