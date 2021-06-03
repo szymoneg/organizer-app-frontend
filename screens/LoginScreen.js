@@ -5,6 +5,7 @@ import Footer from "../components/FooterComponent";
 import Background from "../components/Backgorund";
 import "react-native-gesture-handler";
 import { storeData } from "../service/AsyncStorage";
+import config from "../service/config";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -13,7 +14,7 @@ const LoginScreen = ({ navigation }) => {
   const sendLoginData = () => {
     console.log(username + " " + password);
 
-    fetch("http://localhost:8080/user/login", {
+    fetch(`${config.SERVER_URL}user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
       .then(response => {
         if(response.status !== 200) {
           console.log("nie zalogowano" + response.status);
-          Alert.alert(response.status, "Nie zalogowano")
+          Alert.alert(response.status.toString(), "Nie zalogowano")
           navigation.navigate("Register");
           return "empty token"
         }else {
@@ -81,8 +82,8 @@ const LoginScreen = ({ navigation }) => {
             <Text style={{ color: "lightblue", marginTop: 12, fontSize: 18, fontWeight: "bold" }}> Sign up!</Text>
           </TouchableOpacity>
         </View>
+        <Footer />
       </ScrollView>
-      <Footer />
     </SafeAreaView>
   );
 };
