@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image, Button, Alert } from "react-native";
-import TextInputComponet from "../components/TextInputComponent";
+import { StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button, ScrollView } from "react-native";
+import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent";
 import ButtonComponent from "../components/ButtonComponent";
 import "react-native-gesture-handler";
@@ -13,6 +13,7 @@ const RegisterScreen = ({ navigation }) => {
   const [password2, setPassword2] = useState("");
 
   const sendRegisterData = () => {
+    console.log("DD");
     if (password === password2){
 
     }else {
@@ -21,50 +22,60 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{flex:1}}>
       <Background />
-      <View style={styles.logo}>
-        <Image source={require("../assets/logo.png")} style={{ resizeMode: "contain", width: 150, height: 150 }} />
-      </View>
-      <View style={styles.loginView}>
-        <TextInputComponet title="login" onChangeText={(value) => setLogin(value)} secureTextEntry={false} />
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.logo}>
+          <Image source={require("../assets/logo.png")}
+                 style={{resizeMode: "contain", width: 150, height: 150 }} />
+        </View>
+        <View style={styles.loginView}>
+          <TextInputComponent title="Login" onChangeText={(value) => setLogin(value)} secureTextEntry={false} />
 
-        <TextInputComponet title="email" onChangeText={(value) => setEmail(value)} secureTextEntry={false} />
+          <TextInputComponent title="Email" onChangeText={(value) => setEmail(value)} secureTextEntry={false} />
 
-        <TextInputComponet title="password" onChangeText={(value) => setPassword(value)} secureTextEntry={true} />
+          <TextInputComponent title="Password" onChangeText={(value) => setPassword(value)} secureTextEntry={true} />
 
-        <TextInputComponet title="repeat password" onChangeText={(value) => setPassword2(value)}
-                           secureTextEntry={true} />
+          <TextInputComponent title="Confirm password" onChangeText={(value) => setPassword2(value)}
+                              secureTextEntry={true} />
 
-        <TouchableOpacity style={styles.buttonSend} onPress={() => {
+                  <TouchableOpacity style={styles.buttonSend} onPress={() => {
           sendRegisterData();
         }}>
           <Text style={styles.textButton}>Register</Text>
         </TouchableOpacity>
 
-        <Text style={{ color: "white", fontSize: 18 }}>Do you have already account? </Text>
+          <Text style={{ color: "white", fontSize: 18 }}>Have an account?</Text>
 
-        <TouchableOpacity onPress={() => {
-          navigation.navigate("Login");
-        }}>
-          <Text style={{ color: "lightblue", fontSize: 18, fontWeight: "bold" }}> Log in!</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+            console.log("signup");
+            navigation.navigate("Login");
+          }}>
+            <Text style={{ color: "lightblue", marginTop:12, fontSize: 18, fontWeight: "bold" }}> Log in!</Text>
+          </TouchableOpacity>
 
-      </View>
-      <Footer />
-
-    </View>
+        </View>
+        <Footer />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
+container: {
     alignItems: "center",
-    justifyContent: "center",
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    marginTop: 32,
+  },
+  loginView: {
+    flex: 1,
+    marginTop: 12,
+    alignItems: "center",
   },
   textButton: {
     flex: 1,
@@ -82,18 +93,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 50,
     width: 300,
-  },
-  logo: {
-    flex: 1,
-    width: 150,
-    height: 150,
-    marginTop: 70,
-  },
-  loginView: {
-    flex: 3,
-    width: "100%",
-    marginTop: 10,
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
+  }
 });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image, ImageBackground, Alert } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image, ImageBackground, Alert, SafeAreaView, ScrollView } from "react-native";
 import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent";
 import Background from "../components/Backgorund";
@@ -47,51 +47,61 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={{flex:1}}>
       <Background />
-      <View style={styles.logo}>
-        <Image source={require("../assets/logo.png")} style={{ resizeMode: "contain", width: 150, height: 150 }} />
-      </View>
-      <View style={styles.loginView}>
-        <TextInputComponent title="login" onChangeText={(value) => setUsername(value)} placeholder="Login"
-                            secureTextEntry={false} />
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.logo}>
+          <Image source={require("../assets/logo.png")} style={{ resizeMode: "contain", width: 150, height: 150 }} />
+        </View>
+        <View style={styles.loginView}>
+          <TextInputComponent title="Login" onChangeText={(value) => setName(value)} placeholder="Login"
+                              secureTextEntry={false} />
 
-        <TextInputComponent title="password" onChangeText={(value) => setPassword(value)} placeholder="password"
-                            secureTextEntry={true} />
+          <TextInputComponent title="Password" onChangeText={(value) => setName(value)} placeholder="Password"
+                              secureTextEntry={true} />
 
-        <TouchableOpacity onPress={() => {
-          forgotPasswordHandler();
-        }}>
-          <Text style={{ color: "white", textAlign: "right" }}>Forgot your password?</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+            forgotPasswordHandler();
+          }}>
+            <Text style={{ color: "white", textAlign: "right" }}>Forgot your password?</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonSend} onPress={() => {
+                  <TouchableOpacity style={styles.buttonSend} onPress={() => {
           sendLoginData();
         }}>
           <Text style={styles.textButton}>Login</Text>
         </TouchableOpacity>
 
-        <Text style={{ color: "white", fontSize: 18 }}>Don't have account? </Text>
+          <Text style={{ color: "white", fontSize: 18 }}>Don't have an account?</Text>
 
-        <TouchableOpacity onPress={() => {
-          console.log("signup");
-          navigation.navigate("Register");
-        }}>
-          <Text style={{ color: "lightblue", fontSize: 18, fontWeight: "bold" }}> Sign up!</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={() => {
+            console.log("signup");
+            navigation.navigate("Register");
+          }}>
+            <Text style={{ color: "lightblue", marginTop: 12, fontSize: 18, fontWeight: "bold" }}> Sign up!</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
       <Footer />
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+ container: {
     alignItems: "center",
-    justifyContent: "center",
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    marginTop: 32,
+  },
+  loginView: {
+    flex: 1,
+    marginTop: 12,
+    alignItems: "center",
   },
   textButton: {
     flex: 1,
@@ -109,22 +119,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 50,
     width: 300,
-  },
-  logo: {
-    flex: 1,
-    width: 150,
-    height: 150,
-    marginTop: 64,
-  },
-  loginView: {
-    flex: 3,
-    width: "100%",
-    marginTop: 10,
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  image: {
-    flex: 1,
-    width: "100%",
   },
 });

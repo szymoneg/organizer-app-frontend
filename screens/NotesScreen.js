@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, ScrollView, Image } from "react-native";
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
 import Note from "../components/Note";
 import NoteAddModal from "../components/NoteAddModal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
-const BG_IMAGE = "https://cdn-0.idownloadblog.com/ezoimgfmt/media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V2byArthur1992as-2048x2048.jpeg?ezimgfmt=ng:webp/ngcb28"
+import Background from "../components/Backgorund";
 
 const NotesScreen = () => {
   const [notesList, setNotesList] = useState([]);
@@ -60,13 +59,7 @@ const NotesScreen = () => {
 
   return (
     <View style={styles.mainContainer}>
-      <Image
-        source={{ uri: BG_IMAGE }}
-        style={StyleSheet.absoluteFillObject}
-        blurRadius={6}
-        opacity={.9}
-        backgroundColor={"rgba(212,156,97,1)"}
-      />
+      <Background/>
       <SafeAreaView style={styles.notesContainer}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           {notesList.map((item, index) => {

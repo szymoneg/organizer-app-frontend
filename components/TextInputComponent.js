@@ -14,6 +14,7 @@ export default class TextInputComponent extends React.Component{
                     style={styles.input}
                     onChangeText={this.props.onChangeText}
                     secureTextEntry={this.props.secureTextEntry}
+                    value={this.props.value}
                 />
             </>
         )
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         width: 300,
         height: 50,
-        fontSize: 16
+        fontSize: 16,
+        backgroundColor:'rgba(255,255,255,0.8)'
       },
 
 })
