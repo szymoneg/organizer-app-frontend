@@ -24,18 +24,22 @@ const LoginScreen = ({ navigation }) => {
       }),
     })
       .then(response => {
-        //nie zalogowano
         if(response.status !== 200) {
           console.log("nie zalogowano" + response.status);
           Alert.alert(response.status, "Nie zalogowano")
+          navigation.navigate("Register");
+          return "empty token"
         }else {
           storeData('username', username)
             .then(r => console.log("dodano!"))
           navigation.navigate("Main")
+          return response.json()
         }
-        return response.json()
       })
-      .then(json => console.log(json.token))
+      .then(json => {
+        storeData('token', json.token)
+          .then(r => console.log(json.token))
+      })
   };
 
   const forgotPasswordHandler = () => {
