@@ -26,13 +26,10 @@ const CalendarAddModal = (props) => {
       tags: calendarTags,
       color: calendarColor,
       notification: calendarStart,
-      //TODO change for appropriate id
-      // id: length + 1,
     };
     if (calendarTitle === "") {
       //TODO add toast
     } else {
-      //fetch here
       console.log(length);
       fnAdd(calendar);
     }
@@ -87,21 +84,6 @@ const CalendarAddModal = (props) => {
             onDateChange={setCalendarEnd}
           />
           <Text style={styles.textLabel}>Color</Text>
-          <View style={{width: 100, marginBottom: 0}}>
-            {/*Color picker w osobnym modalu!*/}
-            <Picker
-              style={{ width: "100px" }}
-              ref={pickerRef}
-              selectedValue={calendarColor}
-              onValueChange={(itemValue, itemIndex) =>
-                setCalendarColor(itemValue)
-              }>
-              <Picker.Item label="Red" value="red" itemStyle={{color: 'red'}}/>
-              <Picker.Item label="Green" value="green" />
-              <Picker.Item label="Blue" value="blue" />
-              <Picker.Item label="Yellow" value="yellow" />
-            </Picker>
-          </View>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity style={styles.openButton}

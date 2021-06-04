@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import NoteEditModal from "./NoteEditModal";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
+
 const Note = (props) => {
   const [expanded, setExpanded] = useState(false);
   const [titleSize, setTitleSize] = useState(1);
@@ -40,7 +41,6 @@ const Note = (props) => {
   }
 
   return (
-
     <View style={styles.noteContainer}>
       <Swipeable renderRightActions={rightSwipe} overshootLeft={false} friction={2} overshootRight={false} >
         <>

@@ -30,10 +30,11 @@ const CalendarScreen = () => {
   }, []);
 
   useEffect(() => {
+    console.log('dodano')
     if (username !== "" && token !== "" && idUser !== 0) {
       fetchNotes();
     }
-  }, [username, token, idUser, listCalendar]);
+  }, [username, token, idUser]);
 
   const fetchNotes = () => {
     fetch(`http://localhost:8080/task/getTasks/${username}`, {
@@ -51,7 +52,7 @@ const CalendarScreen = () => {
         }
       })
       .then(json => {
-        //this.listCalendar = mapper(json, listCalendar);
+        console.log(json)
         setListCalendar(mapper(json, listCalendar));
       });
   };
@@ -62,11 +63,6 @@ const CalendarScreen = () => {
 
   const rowHasChanged = (r1, r2) => {
     return r1.name !== r2.name;
-  };
-
-  const timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split("T")[0];
   };
 
   const addCalendar = (calendar) => {
@@ -99,16 +95,14 @@ const CalendarScreen = () => {
       .then(response => {
         console.log(response.status);
         Alert.alert(response.status, "Dodano!");
+        fetchNotes()
         setModalAddVisible(false);
       });
-
-    console.log(newTask);
-
   };
 
   const renderItem = (item) => {
     return (
-      <Task item={item} />
+      <Task item={item} fnFetch={fetchNotes}/>
     );
   };
 
@@ -119,7 +113,6 @@ const CalendarScreen = () => {
         items={listCalendar}
         rowHasChanged={rowHasChanged}
         renderItem={renderItem}
-        style={{}}
         markingType={"period"}
         dayLoading={false}
         theme={{
@@ -129,14 +122,14 @@ const CalendarScreen = () => {
           textSectionTitleDisabledColor: "#d9e1e8",
           selectedDayBackgroundColor: "#00adf5",
           selectedDayTextColor: "black",
-          todayTextColor: "#00adf5",
+          todayTextColor: "red",
           dayTextColor: "#2d4150",
           textDisabledColor: "#d9e1e8",
-          dotColor: "#00adf5",
+          dotColor: "red",
           selectedDotColor: "#ffffff",
           arrowColor: "orange",
           disabledArrowColor: "#d9e1e8",
-          monthTextColor: "blue",
+          monthTextColor: "black",
           indicatorColor: "rgba(255,255,255,0)",
           textDayFontWeight: "300",
           textMonthFontWeight: "bold",

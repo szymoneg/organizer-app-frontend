@@ -2,9 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image, Alert } from "react-native";
 import DatePicker from "react-native-date-picker";
 import { Picker } from "@react-native-picker/picker";
-import { mapper } from "../service/Mapper";
-import { expectNoConsoleWarn } from "react-native/Libraries/Utilities/ReactNativeTestTools";
-import { getMoment } from "react-native-calendars/src/momentResolver";
 import { getData } from "../service/AsyncStorage";
 
 const BG_IMAGE = "https://cdn-0.idownloadblog.com/ezoimgfmt/media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V2byArthur1992as-2048x2048.jpeg?ezimgfmt=ng:webp/ngcb28";
@@ -20,7 +17,7 @@ const CalendarAddModal = (props) => {
   const [calendarColor, setCalendarColor] = useState("");
   const [calendarNotification, setCalendarNotification] = useState("");
 
-  const { visible, fnCancel, fnAdd, length, idTask } = props;
+  const { visible, fnCancel, fnAdd, length, idTask, fnFetch } = props;
 
   useEffect(() => {
     fetchTask()
@@ -53,7 +50,7 @@ const CalendarAddModal = (props) => {
       .then(json => {
         setCalendarTitle(json.titleTask)
         setCalendarDescription(json.descriptionTask)
-        setCalendarColor(json.color)
+        setCalendarColor('Red')
         setCalendarTags(json.tags)
       });
   }
@@ -70,7 +67,8 @@ const CalendarAddModal = (props) => {
       .then(result => result.json())
       .then(response => {
         console.log(response.status);
-        Alert.alert(response.status, "Dodano!");
+        Alert.alert(response.status, "Zmieniono!");
+        fnFetch()
       });
   };
 
@@ -90,11 +88,9 @@ const CalendarAddModal = (props) => {
       tags: calendarTags,
       color: calendarColor,
       notificationTask: newStartDate,
-      //TODO change for appropriate id
-      // id: length + 1,
     };
     if (calendarTitle === "") {
-      //TODO add toast
+
     } else {
       postEditData(calendar)
       fnCancel()
@@ -152,22 +148,6 @@ const CalendarAddModal = (props) => {
             date={calendarEnd}
             onDateChange={setCalendarEnd}
           />
-          <Text style={styles.textLabel}>Color</Text>
-          <View style={{width: 100, marginBottom: 0}}>
-            {/*Color picker w osobnym modalu!*/}
-            <Picker
-              style={{ width: "100px" }}
-              ref={pickerRef}
-              selectedValue={calendarColor}
-              onValueChange={(itemValue, itemIndex) =>
-                setCalendarColor(itemValue)
-              }>
-              <Picker.Item label="Red" value="red" itemStyle={{color: 'red'}}/>
-              <Picker.Item label="Green" value="green" />
-              <Picker.Item label="Blue" value="blue" />
-              <Picker.Item label="Yellow" value="yellow" />
-            </Picker>
-          </View>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity style={styles.openButton}
