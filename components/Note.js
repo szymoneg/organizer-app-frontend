@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TouchableOpacity, Text} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import NoteEditModal from "./NoteEditModal";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import config from "../service/config";
 
 
 const Note = (props) => {
@@ -10,13 +11,13 @@ const Note = (props) => {
   const [titleSize, setTitleSize] = useState(1);
   const [modalEditVisible, setModalEditVisible] = useState(false);
 
-  const { noteTitle, noteDescription, fnEdit, idNote, fnDelete } = props;
+  const { noteTitle, noteDescription, fnEdit, idNote, fnDelete, userId } = props;
 
   const rightSwipe = () => {
     return (
       <TouchableOpacity onPress={() => deleteNote()} activeOpacity={0.6}>
         <View style={styles.deleteBox}>
-          <Icon name="trash-can" size={30} color='#000'/>
+          <Icon name="trash-can" size={30} color="#000" />
         </View>
       </TouchableOpacity>
     );
@@ -34,15 +35,15 @@ const Note = (props) => {
     setModalEditVisible(false);
   };
 
-  const deleteNote = () =>{
-    //TODO change for appropriate id
-    //delete here
-    fnDelete(idNote)
-  }
+  const deleteNote = () => {
+    fetch(`${config.SERVER_URL}/note/deleteById/${idNote}`, {
+      method: "DELETE",
+    }).then(() =>fnDelete(idNote))
+  };
 
   return (
     <View style={styles.noteContainer}>
-      <Swipeable renderRightActions={rightSwipe} overshootLeft={false} friction={2} overshootRight={false} >
+      <Swipeable renderRightActions={rightSwipe} overshootLeft={false} friction={2} overshootRight={false}>
         <>
           <View style={styles.titleContainer}>
             <TouchableOpacity style={styles.editButton} onPress={() => editNote()}>
@@ -58,7 +59,8 @@ const Note = (props) => {
           {expanded && <View style={styles.descriptionContainer}>
             <Text style={styles.descriptionText}>{noteDescription}</Text>
           </View>}
-          <NoteEditModal visible={modalEditVisible} title={noteTitle} desc={noteDescription} fnEdit={fnEdit}
+          <NoteEditModal visible={modalEditVisible} title={noteTitle} desc={noteDescription} userId={userId}
+                         fnEdit={fnEdit}
                          fnCancel={closeEdit} idNote={idNote} />
         </>
       </Swipeable>
@@ -115,11 +117,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   deleteBox: {
-    flex:1,
+    flex: 1,
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal:12,
+    marginHorizontal: 12,
   },
 });
 

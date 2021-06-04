@@ -10,7 +10,7 @@ import { mapper } from "../service/Mapper";
 import { getData } from "../service/AsyncStorage";
 import Task from "../components/Task";
 
-//const listCalendar = {};
+
 
 const CalendarScreen = () => {
   const [calendarList, setCalendarList] = useState([]);

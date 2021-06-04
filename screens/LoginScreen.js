@@ -1,17 +1,29 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image, ImageBackground, Alert, SafeAreaView, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Alert,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent";
 import Background from "../components/Backgorund";
 import "react-native-gesture-handler";
 import { storeData } from "../service/AsyncStorage";
+import config from "../service/config";
+import LinearGradient from "react-native-linear-gradient";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const sendLoginData = () => {
-    fetch("http://localhost:8080/user/login", {
+  const sendLoginData = () => {    
+
+    fetch(`${config.SERVER_URL}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,21 +34,21 @@ const LoginScreen = ({ navigation }) => {
       }),
     })
       .then(response => {
-        if(response.status !== 200) {
+        if (response.status !== 200) {
           console.log("nie zalogowano" + response.status);
-          Alert.alert(response.status, "Nie zalogowano")
+          Alert.alert(response.status.toString(), "Nie zalogowano");
           navigation.navigate("Register");
-          return "empty token"
-        }else {
-          storeData("username", username)
-          navigation.navigate("Main")
-          return response.json()
+          return "empty token";
+        } else {
+          storeData("username", username).then();
+          navigation.navigate("Main");
+          return response.json();
         }
       })
       .then(json => {
-        storeData("token", json.token)
-        storeData("idUser", json.userId.toString())
-      })
+        storeData("token", json.token).then();
+        storeData("userId", json.userId.toString()).then();
+      });
   };
 
   const forgotPasswordHandler = () => {
@@ -44,7 +56,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Background />
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.logo}>
@@ -63,11 +75,11 @@ const LoginScreen = ({ navigation }) => {
             <Text style={{ color: "white", textAlign: "right" }}>Forgot your password?</Text>
           </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.buttonSend} onPress={() => {
-          sendLoginData();
-        }}>
-          <Text style={styles.textButton}>Login</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonSend} onPress={() => {
+            sendLoginData();
+          }}>
+            <Text style={styles.textButton}>Login</Text>
+          </TouchableOpacity>
 
           <Text style={{ color: "white", fontSize: 18 }}>Don't have an account?</Text>
 
@@ -78,8 +90,8 @@ const LoginScreen = ({ navigation }) => {
             <Text style={{ color: "lightblue", marginTop: 12, fontSize: 18, fontWeight: "bold" }}> Sign up!</Text>
           </TouchableOpacity>
         </View>
+        <Footer />
       </ScrollView>
-      <Footer />
     </SafeAreaView>
   );
 };
@@ -87,7 +99,7 @@ const LoginScreen = ({ navigation }) => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
- container: {
+  container: {
     alignItems: "center",
   },
   logo: {

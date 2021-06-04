@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image } from "react-native";
 import Background from "./Backgorund";
+import config from "../service/config";
 
 const NoteEditModal = (props) => {
   const [noteTitle, setNoteTitle] = useState("");
@@ -13,24 +14,31 @@ const NoteEditModal = (props) => {
   }, [visible]);
 
   const checkFields = () => {
-    //TODO change for appropriate id
     let note = {
-      title: noteTitle,
-      body: noteDescription,
-      id: idNote,
+      idNote: idNote,
+      titleNote: noteTitle,
+      descriptionNote: noteDescription,
     };
     if (noteTitle === "") {
       //TODO add toast
     } else {
-      //fetch here
-      fnEdit(note);
-      fnCancel();
+      fetch(`${config.SERVER_URL}/note/edit`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(note),
+      }).then(() => {
+        fnEdit(note);
+        fnCancel();
+      });
+
     }
   };
   return (
     <Modal visible={visible} onRequestClose={() => fnCancel()}>
       <View style={styles.modalView}>
-        <Background/>
+        <Background />
         <View>
           <TextInput style={styles.inputTitleField}
                      placeholder={"Title"}
