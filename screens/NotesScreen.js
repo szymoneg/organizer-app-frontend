@@ -17,7 +17,7 @@ const NotesScreen = () => {
 
   useEffect(() => {
     getData("username").then(r => setUsername(r));
-    getData("userId").then(r => setUserId(r));
+    getData("idUser").then(r => setUserId(r));
   }, []);
 
   useEffect(() => {

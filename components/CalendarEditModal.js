@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image, Aler
 import DatePicker from "react-native-date-picker";
 import { Picker } from "@react-native-picker/picker";
 import { getData } from "../service/AsyncStorage";
-
+import config from "../service/config";
 const BG_IMAGE = "https://cdn-0.idownloadblog.com/ezoimgfmt/media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V2byArthur1992as-2048x2048.jpeg?ezimgfmt=ng:webp/ngcb28";
 
 const CalendarAddModal = (props) => {
@@ -38,7 +38,7 @@ const CalendarAddModal = (props) => {
   },[visible])
 
   const fetchTask = () => {
-    fetch(`http://localhost:8080/task/getTaskById/${idTask}`, {
+    fetch(`${config.SERVER_URL}/task/getTaskById/${idTask}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const CalendarAddModal = (props) => {
 
   const postEditData = (editTask) =>{
     console.log(username)
-    fetch(`http://localhost:8080/task/editTask/${username}`, {
+    fetch(`${config.SERVER_URL}/task/editTask/${username}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

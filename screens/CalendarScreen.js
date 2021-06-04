@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Alert, SafeAreaView } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Alert, SafeAreaView } from "react-native";
 import "react-native-gesture-handler";
 import { Agenda } from "react-native-calendars";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -9,6 +9,7 @@ import "../service/Mapper";
 import { mapper } from "../service/Mapper";
 import { getData } from "../service/AsyncStorage";
 import Task from "../components/Task";
+import config from "../service/config";
 
 
 
@@ -37,7 +38,7 @@ const CalendarScreen = () => {
   }, [username, token, idUser]);
 
   const fetchNotes = () => {
-    fetch(`http://localhost:8080/task/getTasks/${username}`, {
+    fetch(`${config.SERVER_URL}/task/getTasks/${username}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +84,7 @@ const CalendarScreen = () => {
       notificationTask: newStartDate,
     };
 
-    fetch("http://localhost:8080/task/add", {
+    fetch(`${config.SERVER_URL}/task/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

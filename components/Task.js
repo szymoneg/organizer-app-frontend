@@ -1,9 +1,9 @@
 import { Alert, Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import NoteEditModal from "./NoteEditModal";
 import CalendarEditModal from "./CalendarEditModal";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import config from "../service/config";
 
 const Task = (props) => {
   const [modalEditVisible, setModalEditVisible] = useState(false);
@@ -37,7 +37,7 @@ const Task = (props) => {
 
   const deleteTask = () =>{
     console.log(item.idTask);
-    fetch(`http://localhost:8080/task/deleteTask/${item.idTask}`, {
+    fetch(`${config.SERVER_URL}/task/deleteTask/${item.idTask}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

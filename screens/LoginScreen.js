@@ -21,7 +21,7 @@ const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const sendLoginData = () => {    
+  const sendLoginData = () => {
 
     fetch(`${config.SERVER_URL}/user/login`, {
       method: "POST",
@@ -47,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
       })
       .then(json => {
         storeData("token", json.token).then();
-        storeData("userId", json.userId.toString()).then();
+        storeData("idUser", json.userId.toString()).then();
       });
   };
 

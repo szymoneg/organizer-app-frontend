@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput} from "react-native";
 import Background from "./Backgorund";
 import config from "../service/config";
 

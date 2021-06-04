@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button, ScrollView, Alert } from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, ScrollView, Alert } from "react-native";
 import TextInputComponent from "../components/TextInputComponent";
 import Footer from "../components/FooterComponent";
-import ButtonComponent from "../components/ButtonComponent";
 import "react-native-gesture-handler";
 import Background from "../components/Backgorund";
-import { storeData } from "../service/AsyncStorage";
+import config from "../service/config";
 
 const RegisterScreen = ({ navigation }) => {
   const [login, setLogin] = useState("");
@@ -15,7 +14,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const sendRegisterData = () => {
     if (password === password2){
-      fetch("http://localhost:8080/user/register", {
+      fetch(`${config.SERVER_URL}/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
