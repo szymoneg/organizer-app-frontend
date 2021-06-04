@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Background from "../components/Backgorund";
 import ButtonMenu from "../components/ButtonMenu";
+import { getData } from "../service/AsyncStorage";
 
 const MainScreen = ({ navigation }) => {
   const [username, setUsername] = useState("Tom");
 
+  useEffect(() => {
+    getData("username").then(r => {
+      setUsername(r);
+      navigation.setParams({
+        username: r,
+      });
+    });
+  }, []);
+
   const logout = () => {
-    //TODO logout
-    navigation.navigate("Login");
+    navigation.reset({
+      index: 0,
+      routes: [{name: "Login"}]
+    })
   };
 
   return (
@@ -25,10 +37,10 @@ const MainScreen = ({ navigation }) => {
           <ButtonMenu title={"Calendar"} icon={"calendar-multiselect"} onPress={() => {
             navigation.navigate("Calendar");
           }} />
-          <ButtonMenu title={"Settings"} icon={'cog'} onPress={() => {
-            navigation.navigate("Settings");
+          <ButtonMenu title={"Settings"} icon={"cog"} onPress={() => {
+            navigation.navigate("Settings", { username: username });
           }} />
-          <ButtonMenu title={"Log out"} icon={'exit-run'} onPress={() => logout()} />
+          <ButtonMenu title={"Log out"} icon={"exit-run"} onPress={() => logout()} />
         </View>
       </ScrollView>
     </View>

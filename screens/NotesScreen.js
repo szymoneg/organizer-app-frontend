@@ -31,9 +31,6 @@ const NotesScreen = () => {
     fetch(`${config.SERVER_URL}/note/getAll/${username}`)
       .then(response => response.json())
       .then(json => {
-        return json;
-      })
-      .then(json => {
         setNotesList(json);
         setLoaded(true);
       });
