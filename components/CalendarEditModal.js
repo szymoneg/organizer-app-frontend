@@ -16,6 +16,7 @@ const CalendarAddModal = (props) => {
   const [calendarTags, setCalendarTags] = useState("");
   const [calendarColor, setCalendarColor] = useState("");
   const [calendarNotification, setCalendarNotification] = useState("");
+  const [username, setUsername] = useState("");
 
   const { visible, fnCancel, fnAdd, length, idTask, fnFetch } = props;
 
@@ -25,6 +26,10 @@ const CalendarAddModal = (props) => {
       .then(r => {
         setToken(r)
       });
+    getData("username")
+      .then(r => {
+        setUsername(r)
+      })
     getData("idUser")
       .then(r => {
         setIdUser(Number(r))
@@ -56,7 +61,8 @@ const CalendarAddModal = (props) => {
   }
 
   const postEditData = (editTask) =>{
-    fetch(`http://localhost:8080/task/editTask/${idUser}`, {
+    console.log(username)
+    fetch(`http://localhost:8080/task/editTask/${username}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
