@@ -21,8 +21,7 @@ const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const sendLoginData = () => {
-    console.log(username + " " + password);
+  const sendLoginData = () => {    
 
     fetch(`${config.SERVER_URL}/user/login`, {
       method: "POST",
@@ -41,8 +40,7 @@ const LoginScreen = ({ navigation }) => {
           navigation.navigate("Register");
           return "empty token";
         } else {
-          storeData("username", username)
-            .then(r => console.log("dodano!"));
+          storeData("username", username).then();
           navigation.navigate("Main");
           return response.json();
         }

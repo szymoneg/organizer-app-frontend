@@ -1,37 +1,99 @@
-import React, { useRef, useState } from "react";
-import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet, View, TouchableOpacity, Text, Modal, TextInput, Image, Alert } from "react-native";
 import DatePicker from "react-native-date-picker";
 import { Picker } from "@react-native-picker/picker";
+import { getData } from "../service/AsyncStorage";
 
 const BG_IMAGE = "https://cdn-0.idownloadblog.com/ezoimgfmt/media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V2byArthur1992as-2048x2048.jpeg?ezimgfmt=ng:webp/ngcb28";
 
 const CalendarAddModal = (props) => {
+  const [token, setToken] = useState("");
+  const [idUser, setIdUser] = useState(0);
   const [calendarTitle, setCalendarTitle] = useState("");
   const [calendarDescription, setCalendarDescription] = useState("");
   const [calendarStart, setCalendarStart] = useState(new Date());
   const [calendarEnd, setCalendarEnd] = useState(new Date());
   const [calendarTags, setCalendarTags] = useState("");
   const [calendarColor, setCalendarColor] = useState("");
-  const [calendarNotification, setCalendarNotification] = useState("Java");
-  const { visible, fnCancel, fnAdd, length } = props;
+  const [calendarNotification, setCalendarNotification] = useState("");
 
+  const { visible, fnCancel, fnAdd, length, idTask, fnFetch } = props;
+
+  useEffect(() => {
+    fetchTask()
+    getData("token")
+      .then(r => {
+        setToken(r)
+      });
+    getData("idUser")
+      .then(r => {
+        setIdUser(Number(r))
+        console.log(r)
+      });
+  },[visible])
+
+  const fetchTask = () => {
+    fetch(`http://localhost:8080/task/getTaskById/${idTask}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        //"Authorization": `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          Alert.alert("title", "Blad ladowania");
+        } else {
+          return response.json();
+        }
+      })
+      .then(json => {
+        setCalendarTitle(json.titleTask)
+        setCalendarDescription(json.descriptionTask)
+        setCalendarColor('Red')
+        setCalendarTags(json.tags)
+      });
+  }
+
+  const postEditData = (editTask) =>{
+    fetch(`http://localhost:8080/task/editTask/${idUser}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify(editTask),
+    })
+      .then(result => result.json())
+      .then(response => {
+        console.log(response.status);
+        Alert.alert(response.status, "Zmieniono!");
+        fnFetch()
+      });
+  };
 
   const checkFields = () => {
+    const startDate = new Date(calendarStart);
+    const endDate = new Date(calendarEnd);
+
+    const newStartDate = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate() + " " + startDate.getHours() + ":" + startDate.getMinutes() + ":" + startDate.getSeconds();
+    const newEndDate = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate() + " " + endDate.getHours() + ":" + endDate.getMinutes() + ":" + endDate.getSeconds();
 
     let calendar = {
-      title: calendarTitle,
-      description: calendarDescription,
-      start: calendarStart,
-      end: calendarEnd,
+      idTask: idTask,
+      titleTask: calendarTitle,
+      descriptionTask: calendarDescription,
+      startTask: newStartDate,
+      endTask: newEndDate,
       tags: calendarTags,
       color: calendarColor,
-      notification: calendarStart,
+      notificationTask: newStartDate,
     };
     if (calendarTitle === "") {
-      //TODO add toast
+
     } else {
-      console.log(length);
-      fnAdd(calendar);
+      postEditData(calendar)
+      fnCancel()
     }
   };
 
@@ -59,14 +121,17 @@ const CalendarAddModal = (props) => {
         <View>
           <TextInput style={styles.inputTitleField}
                      placeholder={"Title"}
-                     onChangeText={setCalendarTitle} />
+                     onChangeText={setCalendarTitle}
+                     value={calendarTitle}/>
           <TextInput style={styles.inputDescField}
                      multiline
                      placeholder={"Description"}
-                     onChangeText={setCalendarDescription} />
+                     onChangeText={setCalendarDescription}
+                     value={calendarDescription}/>
           <TextInput style={styles.inputTitleField}
                      placeholder={"Tags"}
-                     onChangeText={setCalendarTags} />
+                     onChangeText={setCalendarTags}
+                     value={calendarTags} />
 
           <Text style={styles.textLabel}>Start time</Text>
           <DatePicker
@@ -83,7 +148,6 @@ const CalendarAddModal = (props) => {
             date={calendarEnd}
             onDateChange={setCalendarEnd}
           />
-          <Text style={styles.textLabel}>Color</Text>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity style={styles.openButton}
@@ -98,8 +162,8 @@ const CalendarAddModal = (props) => {
         </View>
       </View>
     </Modal>
-  );
-};
+  )};
+
 
 const styles = StyleSheet.create({
   modalView: {
