@@ -8,7 +8,6 @@ import Background from "../components/Backgorund";
 import CalendarAddModal from "../components/CalendarAddModal";
 import '../service/Mapper';
 import { mapper } from "../service/Mapper";
-import { getData } from "../service/RestApi";
 
 const listCalendar = {
   "2021-05-28": [
