@@ -13,7 +13,7 @@ const CalendarAddModal = (props) => {
   const [calendarTags, setCalendarTags] = useState("");
   const [calendarColor, setCalendarColor] = useState("");
   const [calendarNotification, setCalendarNotification] = useState("Java");
-  const { visible, fnCancel, fnAdd, length } = props;
+  const { visible, fnCancel, fnAdd} = props;
 
 
   const checkFields = () => {
@@ -30,7 +30,6 @@ const CalendarAddModal = (props) => {
     if (calendarTitle === "") {
       //TODO add toast
     } else {
-      console.log(length);
       fnAdd(calendar);
     }
   };

@@ -27,7 +27,6 @@ const RegisterScreen = ({ navigation }) => {
       })
         .then(response => {
           if(response.status !== 201) {
-            console.log("blad rejestracji" + response.status);
             Alert.alert(response.status, "Nie zerejestrowano")
             return "empty token"
           }

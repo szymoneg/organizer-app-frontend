@@ -23,9 +23,6 @@ const SettingsScreen = ({ route, navigation }) => {
     fetch(`${config.SERVER_URL}/user/details/${username}`)
       .then(response => response.json())
       .then(json => {
-        return json;
-      })
-      .then(json => {
         setName(json.name);
         setSurname(json.surname);
         json.phoneNumber === 0 ? setPhoneNumber("") : setPhoneNumber(json.phoneNumber.toString());

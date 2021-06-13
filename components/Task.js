@@ -36,7 +36,6 @@ const Task = (props) => {
   };
 
   const deleteTask = () =>{
-    console.log(item.idTask);
     fetch(`${config.SERVER_URL}/task/deleteTask/${item.idTask}`, {
       method: "DELETE",
       headers: {

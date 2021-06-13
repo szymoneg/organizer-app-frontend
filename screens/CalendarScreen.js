@@ -31,7 +31,6 @@ const CalendarScreen = () => {
   }, []);
 
   useEffect(() => {
-    console.log('dodano')
     if (username !== "" && token !== "" && idUser !== 0) {
       fetchNotes();
     }
@@ -53,7 +52,6 @@ const CalendarScreen = () => {
         }
       })
       .then(json => {
-        console.log(json)
         setListCalendar(mapper(json, listCalendar));
       });
   };
@@ -94,7 +92,6 @@ const CalendarScreen = () => {
     })
       .then(result => result.json())
       .then(response => {
-        console.log(response.status);
         Alert.alert(response.status, "Dodano!");
         fetchNotes()
         setModalAddVisible(false);

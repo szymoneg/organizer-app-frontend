@@ -15,7 +15,6 @@ import Background from "../components/Backgorund";
 import "react-native-gesture-handler";
 import { storeData } from "../service/AsyncStorage";
 import config from "../service/config";
-import LinearGradient from "react-native-linear-gradient";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -35,7 +34,6 @@ const LoginScreen = ({ navigation }) => {
     })
       .then(response => {
         if (response.status !== 200) {
-          console.log("nie zalogowano" + response.status);
           Alert.alert(response.status.toString(), "Nie zalogowano");
           navigation.navigate("Register");
           return "empty token";
@@ -84,7 +82,6 @@ const LoginScreen = ({ navigation }) => {
           <Text style={{ color: "white", fontSize: 18 }}>Don't have an account?</Text>
 
           <TouchableOpacity onPress={() => {
-            console.log("signup");
             navigation.navigate("Register");
           }}>
             <Text style={{ color: "lightblue", marginTop: 12, fontSize: 18, fontWeight: "bold" }}> Sign up!</Text>

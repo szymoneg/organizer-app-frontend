@@ -33,7 +33,6 @@ const CalendarAddModal = (props) => {
     getData("idUser")
       .then(r => {
         setIdUser(Number(r))
-        console.log(r)
       });
   },[visible])
 
@@ -61,7 +60,6 @@ const CalendarAddModal = (props) => {
   }
 
   const postEditData = (editTask) =>{
-    console.log(username)
     fetch(`${config.SERVER_URL}/task/editTask/${username}`, {
       method: "PUT",
       headers: {
@@ -72,7 +70,6 @@ const CalendarAddModal = (props) => {
     })
       .then(result => result.json())
       .then(response => {
-        console.log(response.status);
         Alert.alert(response.status, "Zmieniono!");
         fnFetch()
       });
