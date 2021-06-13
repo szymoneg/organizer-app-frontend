@@ -15,6 +15,7 @@ target 'OrganizerApp' do
   target 'OrganizerAppTests' do
     inherit! :complete
     # Pods for testing
+    pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   end
 
   # Enables Flipper.
